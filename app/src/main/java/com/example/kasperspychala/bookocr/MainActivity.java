@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -47,6 +48,18 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListAdapter(this, R.layout.row_book, RowBook_data);
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                db.deleteBooks(books.get(pos));
+                redraw();
+                Log.v("long clicked","pos: " + pos);
+
+                return true;
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_photo);
         fab.setOnClickListener(new View.OnClickListener() {
